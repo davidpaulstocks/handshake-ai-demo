@@ -1086,11 +1086,11 @@ function SceneBanner(){
   return (
     <div className="scene-banner">
       <div className="scene-inner">
-        <div className="scene-eyebrow">ArcLight · Case Study</div>
+        <div className="scene-eyebrow">ArcLight · Fictional Demo Company</div>
         <div className="scene-cols">
           <div className="scene-left">
-            <h2 className="scene-title">Meet ArcLight — a partner-owned professional services firm</h2>
-            <p className="scene-desc"><em>Marketing creates demand. Sales converts it.</em> They operated from different data, different KPIs, and were in conflict every quarter. Growth Navigator ingested their full stack and unified 30 days of growth activity into a single intelligence picture.</p>
+            <h2 className="scene-title">Meet ArcLight — a fictional company built for this demo</h2>
+            <p className="scene-desc"><em>ArcLight is a fictionalised professional services firm.</em> Marketing creates demand. Sales converts it. They operated from different data, different KPIs, and were in conflict every quarter. Growth Navigator ingested their synthetic data stack and unified 30 days of growth activity into a single intelligence picture. The underlying demo data is available on the <strong>Demo Data</strong> tab.</p>
             <div className="scene-stats">
               <div className="scene-stat"><div className="scene-stat-n">11</div><div className="scene-stat-l">datasets</div></div>
               <div className="scene-stat"><div className="scene-stat-n">22</div><div className="scene-stat-l">tools</div></div>
@@ -1519,13 +1519,13 @@ function FractureHero() {
       <div className="fh-bottom">
         <div className="fh-eyebrow-bar">
           <span className="fh-eyebrow-dot"/>
-          Growth Navigator · Training Data
+          Growth Navigator · Demo Data
         </div>
         <h1 className="fh-title">
           AI unification of <span className="fh-gold">11 disparate datasets</span><br/>
           across marketing and sales
         </h1>
-        <p className="fh-subtitle">Modelled on real enterprise data · 30 days of revenue activity</p>
+        <p className="fh-subtitle">Synthetic data modelled on real enterprise patterns · powers the ArcLight demo on the Demo tab</p>
       </div>
 
       {/* Stats */}
@@ -1743,7 +1743,7 @@ function TopBar({ page, setPage }) {
         <button className={`tb-tab${page==='feed'?' on':''}`} onClick={()=>setPage('feed')}>
           Demo{page==='home'&&<span className="tb-badge">{critCount}</span>}
         </button>
-        <button className={`tb-tab${page==='data'?' on':''}`} onClick={()=>setPage('data')}>Training Data</button>
+        <button className={`tb-tab${page==='data'?' on':''}`} onClick={()=>setPage('data')}>Demo Data</button>
       </nav>
       <div className="tb-right">
         <div className="aster-tb">
@@ -1772,7 +1772,7 @@ function App() {
         </button>
         <button className={`mn-btn${page==='data'?' on':''}`} onClick={()=>setPage('data')}>
           <span className="mn-icon">⊞</span>
-          <span>Training Data</span>
+          <span>Demo Data</span>
         </button>
       </nav>
       <div className="aster-wm">
