@@ -994,7 +994,7 @@ function ActionCard({ notif, type, tech }) {
   const steps = parseSteps(notif.action);
   const techItems = tech ? tech.split(';').map(t=>t.trim()).filter(Boolean) : [];
   const lineHeights = [32,44,28,38,48];
-  const avIdx = strHash(notif.role, 6);
+  const avIdx = ((notif.insightId || 0) * 7 + (type === 'mkt' ? 3 : 0)) % 6;
   return (
     <div className={`ac-wrap ${type}`}>
       <div className="ac-media">
