@@ -1835,6 +1835,7 @@ function TopBar({ page, setPage }) {
 function App() {
   const [page, setPage] = useState('home');
   const critCount = NOTIFICATIONS.filter(n=>n.prio==='Critical').length;
+  useEffect(()=>{ window.scrollTo({top:0,behavior:'instant'}); },[page]);
   return (
     <>
       <TopBar page={page} setPage={setPage}/>
