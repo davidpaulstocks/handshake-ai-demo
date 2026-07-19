@@ -77,9 +77,29 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
 /* ASTER WATERMARK */
 .aster-wm{position:fixed;bottom:20px;right:24px;z-index:300;display:none;align-items:center;gap:8px;opacity:.55;pointer-events:none;background:rgba(255,255,255,.9);padding:6px 10px;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,.1);}
-@media(max-width:640px){.aster-wm{display:flex;}.aster-tb{display:none;}}
 .aster-wm-label{font-size:9px;font-weight:500;color:var(--t3);letter-spacing:.06em;white-space:nowrap;}
 .aster-wm-svg{width:80px;height:auto;display:block;}
+
+/* MOBILE BOTTOM NAV */
+.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:500;background:rgba(255,255,255,.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--bdr);padding-bottom:env(safe-area-inset-bottom,0px);box-shadow:0 -2px 20px rgba(15,23,42,.06);}
+.mn-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:58px;color:var(--t3);font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;transition:color .15s;position:relative;padding-top:4px;}
+.mn-btn.on{color:var(--navy);}
+.mn-btn.on::before{content:'';position:absolute;top:0;left:18%;right:18%;height:2px;border-radius:0 0 3px 3px;background:var(--grad);}
+.mn-icon{font-size:19px;line-height:1;margin-bottom:1px;}
+
+/* MOBILE OVERRIDES */
+@media(max-width:640px){
+  .mob-nav{display:flex;}
+  .tb-nav{display:none;}
+  .tb-right{display:none;}
+  .aster-tb{display:none;}
+  .topbar{padding:0 14px;}
+  .tb-icon{height:38px;width:38px;}
+  .tb-logo{width:50vw;margin-left:-8px;}
+  .topbar.compact .tb-logo{width:44vw;margin-left:-6px;}
+  .aster-wm{display:flex;bottom:calc(58px + env(safe-area-inset-bottom,0px) + 10px);}
+  .shell{padding-bottom:calc(58px + env(safe-area-inset-bottom,0px));}
+}
 
 .shell{padding-top:var(--bar);min-height:100%;}
 .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:999;padding:11px 26px;border-radius:12px;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.04em;white-space:nowrap;animation:fadeUp .2s var(--ease) both;box-shadow:var(--sh-lg);}
@@ -1694,9 +1714,24 @@ function TopBar({ page, setPage }) {
 
 function App() {
   const [page, setPage] = useState('home');
+  const critCount = NOTIFICATIONS.filter(n=>n.prio==='Critical').length;
   return (
     <>
       <TopBar page={page} setPage={setPage}/>
+      <nav className="mob-nav">
+        <button className={`mn-btn${page==='home'?' on':''}`} onClick={()=>setPage('home')}>
+          <span className="mn-icon">⌂</span>
+          <span>Home</span>
+        </button>
+        <button className={`mn-btn${page==='feed'?' on':''}`} onClick={()=>setPage('feed')}>
+          <span className="mn-icon">▶</span>
+          <span>Demo{critCount>0&&<span className="tb-badge">{critCount}</span>}</span>
+        </button>
+        <button className={`mn-btn${page==='data'?' on':''}`} onClick={()=>setPage('data')}>
+          <span className="mn-icon">⊞</span>
+          <span>Training Data</span>
+        </button>
+      </nav>
       <div className="aster-wm">
         <span className="aster-wm-label">Powered by</span>
         <AsterSVG className="aster-wm-svg"/>
