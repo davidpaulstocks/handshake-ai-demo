@@ -162,8 +162,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .ctabtn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(3,20,51,.44);}
 .ctabtn span{display:inline-block;transition:transform .22s var(--ease);}
 .ctabtn:hover span{transform:translateX(5px);}
-.below-hero{background:#fff;border-radius:28px 28px 0 0;margin-top:-28px;position:relative;z-index:2;padding-top:2px;box-shadow:0 -2px 0 0 rgba(15,23,42,.04);}
-.grad-strip{height:2px;background:var(--grad);max-width:860px;margin:44px auto;border-radius:99px;}
+.below-hero{background:#fff;border-radius:28px 28px 0 0;margin-top:-28px;position:relative;z-index:2;padding-top:52px;box-shadow:0 -2px 0 0 rgba(15,23,42,.04);}
+.grad-strip{height:2px;background:var(--grad);max-width:860px;margin:28px auto 44px;border-radius:99px;}
 .sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:960px;margin:0 auto 52px;padding:0 32px;}
 @media(max-width:640px){.sgrid{grid-template-columns:repeat(2,1fr);}}
 .scell{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);box-shadow:var(--sh-sm);padding:26px 18px;text-align:center;transform-style:preserve-3d;will-change:transform;}
@@ -326,6 +326,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .ac-tech-lbl{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);margin-bottom:7px;}
 .ac-tech-chips{display:flex;flex-wrap:wrap;gap:4px;}
 .ac-tech-chip{padding:3px 9px;border-radius:99px;background:var(--sub);border:1px solid var(--bdr);font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--t2);}
+/* Avatar row in action card body */
+.ac-who{display:flex;align-items:center;gap:11px;margin-bottom:14px;}
+.ac-avatar{width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;box-shadow:0 2px 10px rgba(15,23,42,.18),0 0 0 2px #fff;}
+.ac-who-name{font-size:12px;font-weight:800;color:var(--navy);line-height:1.3;letter-spacing:-.01em;}
 
 /* SOURCE BADGES — Adobe / Salesforce */
 .src-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px 3px 6px;border-radius:6px;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.04em;flex-shrink:0;}
@@ -607,6 +611,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 @media(max-width:640px){
   .shell{padding-top:60px;}
   .hero-wrap{padding:28px 20px 48px;}
+  .below-hero{padding-top:32px;}
+  .probbox{margin:0 0 28px;max-width:100%;}
   .sgrid{padding:0 20px;}
   .sec{padding:0 20px 40px;}
   .howcard{padding:20px;}
@@ -939,20 +945,69 @@ function InsightCard({ insight, fullWidth }) {
 }
 
 /* ACTION CARD — forward-looking: steps, uplift, channels */
+function strHash(str,max){return[...str].reduce((a,c)=>a+c.charCodeAt(0),0)%max;}
+
+function AvatarSVG({idx}){
+  const configs=[
+    {bg:'#1e3a8a',skin:'#C68642',hair:'#2C1810',shirt:'#1d4ed8',style:'short'},
+    {bg:'#0f172a',skin:'#6B3A2A',hair:'#150600',shirt:'#2563EB',style:'crop'},
+    {bg:'#1a2f6a',skin:'#F0C59E',hair:'#5C3317',shirt:'#3b82f6',style:'long'},
+    {bg:'#0e4d6e',skin:'#8D5524',hair:'#2C1810',shirt:'#0369a1',style:'curly'},
+    {bg:'#3730a3',skin:'#D4A574',hair:'#6B3A1A',shirt:'#4338ca',style:'neat'},
+    {bg:'#0a3355',skin:'#A0522D',hair:'#150600',shirt:'#0c4a6e',style:'bun'},
+  ];
+  const {bg,skin,hair,shirt,style}=configs[idx%6];
+  const hairEl={
+    short: <ellipse cx="28" cy="19" rx="9.5" ry="8" fill={hair}/>,
+    crop:  <ellipse cx="28" cy="20" rx="10.5" ry="6.5" fill={hair}/>,
+    long:  <g>
+      <ellipse cx="28" cy="19" rx="11" ry="8" fill={hair}/>
+      <rect x="17" y="21" width="4.5" height="16" rx="2" fill={hair}/>
+      <rect x="34.5" y="21" width="4.5" height="16" rx="2" fill={hair}/>
+    </g>,
+    curly: <g>
+      <circle cx="22" cy="16" r="5.5" fill={hair}/>
+      <circle cx="34" cy="16" r="5.5" fill={hair}/>
+      <circle cx="28" cy="11" r="6.5" fill={hair}/>
+      <ellipse cx="28" cy="20" rx="10" ry="6" fill={hair}/>
+    </g>,
+    neat:  <path d="M19,23 Q19,11 28,11 Q37,11 37,23 Q34,17 28,17 Q22,17 19,23Z" fill={hair}/>,
+    bun:   <g>
+      <ellipse cx="28" cy="21" rx="10.5" ry="7" fill={hair}/>
+      <circle cx="28" cy="11" r="5.5" fill={hair}/>
+    </g>,
+  }[style];
+  return (
+    <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="28" cy="28" r="28" fill={bg}/>
+      <ellipse cx="28" cy="51" rx="19" ry="11" fill={shirt}/>
+      <rect x="25" y="35" width="6" height="10" fill={skin}/>
+      <ellipse cx="28" cy="27" rx="9" ry="10" fill={skin}/>
+      {hairEl}
+      <circle cx="24.5" cy="27" r="1.9" fill="rgba(0,0,0,.72)"/>
+      <circle cx="31.5" cy="27" r="1.9" fill="rgba(0,0,0,.72)"/>
+    </svg>
+  );
+}
+
 function ActionCard({ notif, type, tech }) {
   const steps = parseSteps(notif.action);
   const techItems = tech ? tech.split(';').map(t=>t.trim()).filter(Boolean) : [];
   const lineHeights = [32,44,28,38,48];
+  const avIdx = strHash(notif.role, 6);
   return (
     <div className={`ac-wrap ${type}`}>
       <div className="ac-media">
         <div className="ac-type-label">{type === 'sales' ? '⚡ Sales Action' : '📣 Marketing Action'}</div>
-        <div className="ac-role">{notif.role}</div>
         <div className="ac-media-lines">
           {lineHeights.map((h,i)=><div key={i} className="ac-line" style={{height:`${h}px`,opacity:0.12+i*0.06}}/>)}
         </div>
       </div>
       <div className="ac-body">
+        <div className="ac-who">
+          <div className="ac-avatar"><AvatarSVG idx={avIdx}/></div>
+          <div className="ac-who-name">{notif.role}</div>
+        </div>
         <div style={{marginBottom:'10px'}}><SourceBadge tag={type==='sales'?'Sales':'Marketing'}/></div>
         <div className="ac-sep"/>
         <div className="ac-steps-lbl">Action steps</div>
@@ -1358,14 +1413,14 @@ function HomePage({ onGoFeed }) {
         <div className="hero-inner">
           <h1 className="htitle"><span className="grad">Transform Marketing</span><br/>and Sales into a<br/><span className="grad">Unified Growth Function</span></h1>
           <p className="hsub">Growth Navigator is the AI-native insight layer that unifies Marketing and Sales by connecting experience data to revenue outcomes, delivering actionable intelligence directly into the tools your teams already use.</p>
-          <div className="probbox">
-            <span className="probbox-label">The problem we solve</span>
-            <span className="probbox-text">There is no shared, real-time operating picture that connects buyer experience signals to revenue actions across Marketing and Sales. Until now.</span>
-          </div>
           <button className="ctabtn" onClick={onGoFeed}>View Demo <span>›</span></button>
         </div>
       </div>
       <div className="below-hero">
+      <div className="probbox">
+        <span className="probbox-label">The problem we solve</span>
+        <span className="probbox-text">There is no shared, real-time operating picture that connects buyer experience signals to revenue actions across Marketing and Sales. Until now.</span>
+      </div>
       <div className="grad-strip"/>
       <div className="sgrid" ref={statsRef}>
         {stats.map((s,i)=><StatCell key={i} stat={s} delay={i*140} started={statsStarted} revClass={`reveal d${i+1}`}/>)}
