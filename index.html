@@ -603,6 +603,31 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 @keyframes zgDraw{from{stroke-dashoffset:660}to{stroke-dashoffset:0}}
 .fh-zg-line{stroke-dasharray:660;stroke-dashoffset:660;animation:zgDraw 1.6s cubic-bezier(.16,1,.3,1) .15s both;}
+/* ── LATE MOBILE OVERRIDES — must come after all desktop rules to win cascade ── */
+@media(max-width:640px){
+  .shell{padding-top:60px;}
+  .hero-wrap{padding:28px 20px 48px;}
+  .sgrid{padding:0 20px;}
+  .sec{padding:0 20px 40px;}
+  .howcard{padding:20px;}
+  .possec{padding:0 16px 48px;}
+  .poscard{padding:28px 20px;border-radius:16px;}
+  .feed-page{padding:0 14px 32px;}
+  .scene-banner{padding:20px 16px;margin:0 -14px;}
+  .val-section{padding:28px 20px;}
+  .val-featured{flex-direction:column;gap:12px;}
+  .val-avatar{width:42px;height:42px;font-size:13px;}
+}
+@media(max-width:700px){
+  .fh-side{padding:20px 18px 16px;}
+  .fh-side.sls{align-items:flex-start;text-align:left;}
+  .fh-bottom{padding:14px 18px 0;}
+  .fh-stat{border-right:none;border-bottom:1px solid rgba(255,255,255,.05);flex-basis:50%;}
+  .de-outer{padding:20px 16px 40px;}
+  .de-cats{width:100%;overflow-x:auto;flex-wrap:nowrap;}
+  .de-cat{flex:1;text-align:center;}
+  .de-table th{position:static;}
+}
 </style>
 </head>
 <body>
