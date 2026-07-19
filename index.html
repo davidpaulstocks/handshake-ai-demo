@@ -1146,7 +1146,7 @@ function ValSection(){
 }
 
 /* FEED PAGE */
-const FILTER_OPTS=[{k:'all',l:'All'},{k:'Sales',l:'Sales'},{k:'Marketing',l:'Mkt'},{k:'Critical',l:'Critical'},{k:'High',l:'High'},{k:'flagged',l:'Flagged'}];
+const FILTER_OPTS=[{k:'all',l:'All'},{k:'Sales',l:'Sales'},{k:'Marketing',l:'Marketing'}];
 
 function buildQueue() {
   const sorted=[...INSIGHTS].sort((a,b)=>a.date.localeCompare(b.date));
@@ -1185,8 +1185,6 @@ function FeedPage() {
     if(filter!=='all'){
       units=units.filter(u=>{
         const ins=u.insight;
-        if(filter==='flagged')return ins.hl;
-        if(filter==='Critical'||filter==='High')return ins.prio===filter;
         if(filter==='Sales'||filter==='Marketing')return ins.tag===filter;
         return true;
       });
