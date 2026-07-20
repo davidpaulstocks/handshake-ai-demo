@@ -1422,8 +1422,6 @@ function ValSection(){
 }
 
 /* FEED PAGE */
-const FILTER_OPTS=[{k:'all',l:'All'},{k:'Sales',l:'Sales'},{k:'Marketing',l:'Marketing'}];
-
 function buildQueue() {
   const sorted=[...INSIGHTS].sort((a,b)=>a.date.localeCompare(b.date));
   return sorted.map(i=>({
@@ -1435,8 +1433,7 @@ function buildQueue() {
 }
 
 function FeedPage() {
-  const [filter, setFilter] = useState('all');
-  const [sort,   setSort]   = useState('time');
+  const [sort, setSort] = useState('time');
   const [currentDate, setCurrentDate] = useState(null);
   const prevDateRef = useRef(null);
 
@@ -1457,28 +1454,19 @@ function FeedPage() {
   },[]);
 
   const visible = useMemo(()=>{
-    let units=allLoaded;
-    if(filter!=='all'){
-      units=units.filter(u=>{
-        const ins=u.insight;
-        if(filter==='Sales'||filter==='Marketing')return ins.tag===filter;
-        return true;
-      });
-    }
     if(sort==='priority'){
-      units=[...units].sort((a,b)=>P_ORD[a.insight.prio]-P_ORD[b.insight.prio]);
-      return units;
+      return [...allLoaded].sort((a,b)=>P_ORD[a.insight.prio]-P_ORD[b.insight.prio]);
     }
     // Inject date markers for chronological view
     const result=[];
     let lastDate=null;
-    for(const unit of units){
+    for(const unit of allLoaded){
       const d=unit.insight.date;
       if(d!==lastDate){result.push({type:'date-marker',date:d});lastDate=d;}
       result.push(unit);
     }
     return result;
-  },[allLoaded,filter,sort]);
+  },[allLoaded,sort]);
 
   const critCount=allLoaded.filter(u=>u.insight.prio==='Critical').length;
   const flagCount=allLoaded.filter(u=>u.insight.hl).length;
@@ -1499,9 +1487,6 @@ function FeedPage() {
           </div>
         </div>
         <div className="filters">
-          <div className="filter-bar">
-            {FILTER_OPTS.map(f=><button key={f.k} className={`fchip${filter===f.k?' on':''}`} onClick={()=>setFilter(f.k)}>{f.l}</button>)}
-          </div>
           <select className="sort-s" value={sort} onChange={e=>setSort(e.target.value)}>
             <option value="time">As detected</option>
             <option value="priority">Priority</option>
