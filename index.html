@@ -58,8 +58,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* Logo is square with whitespace padding — wordmark sits at ~55–65% vertically.
    object-fit:cover + wide box crops to that band. mix-blend-mode:multiply removes white bg. */
 .tb-lockup{display:flex;align-items:center;gap:0;flex-shrink:0;cursor:pointer;}
-.tb-logo{width:min(260px,23vw);height:56px;object-fit:cover;object-position:center 58%;flex-shrink:0;display:block;transition:width .35s var(--ease),height .35s var(--ease);mix-blend-mode:multiply;}
-.topbar.compact .tb-logo{width:min(200px,22vw);height:44px;}
+.tb-logo{width:min(390px,34vw);height:84px;object-fit:cover;object-position:center 58%;flex-shrink:0;display:block;align-self:center;transition:width .35s var(--ease),height .35s var(--ease);mix-blend-mode:multiply;}
+.topbar.compact .tb-logo{width:min(300px,28vw);height:66px;}
 .tb-nav{display:flex;align-items:center;gap:2px;}
 .tb-tab{padding:7px 16px;border-radius:99px;font-size:13px;font-weight:600;color:var(--t2);position:relative;transition:color .15s,background .15s;white-space:nowrap;}
 .tb-tab:hover{color:var(--t1);background:rgba(15,23,42,.04);}
@@ -99,8 +99,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .shell{padding-top:60px;padding-bottom:calc(58px + env(safe-area-inset-bottom,0px));}
   /* Logo */
   .tb-icon{height:36px;width:36px;}
-  .tb-logo{width:50vw;height:44px;}
-  .topbar.compact .tb-logo{width:44vw;height:38px;}
+  .tb-logo{width:55vw;height:66px;}
+  .topbar.compact .tb-logo{width:48vw;height:56px;}
   /* Toast clears bottom nav */
   .toast{bottom:calc(58px + env(safe-area-inset-bottom,0px) + 12px);}
   /* Aster watermark clears bottom nav */
@@ -739,7 +739,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <div id="root"></div>
 <script type="text/babel">
 const { useState, useEffect, useRef, useCallback, useMemo } = React;
-const LOGO_HS = './handshake-ai/public/Growth_navigator_new_logo.jpeg';
+const LOGO_HS = './handshake-ai/public/Growth_navigator_new_new_new.jpeg';
 const ICON_HS  = './handshake-ai/public/icon.jpeg';
 const COMPASS_SRC = './handshake-ai/public/Compass_logo_in_blue_2K_202607201046.jpeg';
 const VIDEO_SRC = './handshake-ai/public/hero-lines.mp4';
