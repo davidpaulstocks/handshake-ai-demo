@@ -129,7 +129,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   /* Feed */
   .feed-page{padding:0 14px 32px;}
   .scene-banner{padding:20px 16px;}
-  .ic-wrap,.ac-wrap{min-height:260px;}
+  .ic-wrap,.ac-wrap{min-height:0;}
+  .ic-body,.ac-body{flex:none;}
   .tg-hdr{padding:9px 12px;}
   .tg-meta{max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 }
@@ -495,8 +496,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ── Fissure Hero (tectonic plate separation) ── */
 .fh{position:relative;overflow:hidden;background:var(--navy);}
 .fh-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
-.fh-layout{position:relative;z-index:2;display:grid;grid-template-columns:1fr 52px 1fr;min-height:350px;}
-.fh-side{padding:44px 48px 32px;display:flex;flex-direction:column;gap:11px;}
+.fh-layout{position:relative;z-index:2;display:grid;grid-template-columns:1fr 52px 1fr;min-height:200px;}
+.fh-side{padding:24px 36px 20px;display:flex;flex-direction:column;gap:8px;}
 .fh-side.sls{align-items:flex-end;text-align:right;}
 .fh-plate-label{font-size:8px;font-weight:900;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.25);margin-bottom:4px;}
 /* Vendor list */
@@ -520,15 +521,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .fh-void-col{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;position:relative;}
 .fh-void-label{font-family:'IBM Plex Mono',monospace;font-size:6.5px;font-weight:900;letter-spacing:.22em;text-transform:uppercase;color:rgba(96,165,250,.45);writing-mode:vertical-rl;transform:rotate(180deg);position:relative;z-index:1;}
 .fh-void-icon{width:20px;height:20px;border-radius:50%;background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.22);display:flex;align-items:center;justify-content:center;font-size:9px;position:relative;z-index:1;}
-/* Hero bottom */
-.fh-bottom{position:relative;z-index:2;padding:18px 48px 0;text-align:center;}
+/* Hero top — headline lives here now */
+.fh-top{position:relative;z-index:2;padding:40px 48px 28px;text-align:center;border-bottom:1px solid rgba(255,255,255,.06);}
 .fh-eyebrow-bar{display:inline-flex;align-items:center;gap:8px;padding:4px 14px;border-radius:99px;background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.22);font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#93c5fd;margin-bottom:16px;}
 .fh-eyebrow-dot{width:5px;height:5px;border-radius:50%;background:#60A5FA;animation:pulse 2s ease-in-out infinite;flex-shrink:0;}
 .fh-title{font-size:clamp(1.4rem,3.2vw,2.4rem);font-weight:900;line-height:1.1;letter-spacing:-.03em;color:#fff;margin-bottom:6px;}
 .fh-gold{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .fh-subtitle{font-size:.88rem;color:rgba(255,255,255,.38);margin-bottom:24px;}
-/* Stats row */
-.fh-stats{display:flex;align-items:stretch;border-top:1px solid rgba(255,255,255,.06);background:rgba(0,0,0,.25);flex-wrap:wrap;margin-top:28px;}
+/* Stats row — now sits inside fh-top */
+.fh-stats{display:flex;align-items:stretch;border:1px solid rgba(255,255,255,.06);border-radius:12px;background:rgba(0,0,0,.2);flex-wrap:wrap;max-width:680px;margin:0 auto;}
 .fh-stat{display:flex;flex-direction:column;align-items:center;padding:16px 18px;border-right:1px solid rgba(255,255,255,.05);flex:1;min-width:90px;}
 .fh-stat:last-child{border-right:none;}
 .fh-stat-val{font-family:'IBM Plex Mono',monospace;font-size:1.35rem;font-weight:800;color:#fff;letter-spacing:-.02em;}
@@ -537,8 +538,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 @media(max-width:700px){
   .fh-layout{grid-template-columns:1fr;}
   .fh-void-col{display:none;}
+  .fh-side{padding:16px 20px 14px;}
   .fh-side.sls{align-items:flex-start;text-align:left;}
   .fh-chips.sls,.fh-vendors.sls{justify-content:flex-start;align-items:flex-start;}
+  .fh-top{padding:28px 20px 20px;}
 }
 
 /* ── Data Explorer ── */
@@ -1371,7 +1374,7 @@ function SceneBanner(){
         <div className="scene-cols">
           <div className="scene-left">
             <h2 className="scene-title">Meet ArcLight — a fictional company built for this demo</h2>
-            <p className="scene-desc"><em>ArcLight is a fictionalised professional services firm.</em> Marketing creates demand. Sales converts it. They operated from different data, different KPIs, and were in conflict every quarter. Growth Navigator ingested their synthetic data stack and unified 30 days of growth activity into a single intelligence picture. The underlying demo data is available on the <strong>Demo Data</strong> tab.</p>
+            <p className="scene-desc"><em>ArcLight is a fictionalised professional services firm.</em> Marketing and Sales operated from different data and different KPIs — in conflict every quarter. Growth Navigator unified 30 days of their activity into a single intelligence picture.</p>
             <div className="scene-stats">
               <div className="scene-stat"><div className="scene-stat-n">11</div><div className="scene-stat-l">datasets</div></div>
               <div className="scene-stat"><div className="scene-stat-n">22</div><div className="scene-stat-l">tools</div></div>
@@ -1670,7 +1673,28 @@ function FractureHero() {
   ];
   return (
     <div className="fh">
-      {/* SVG — two distinct coloured panels split by an animated zigzag fracture line */}
+      {/* Headline at top */}
+      <div className="fh-top">
+        <div className="fh-eyebrow-bar">
+          <span className="fh-eyebrow-dot"/>
+          Growth Navigator · Demo Data
+        </div>
+        <h1 className="fh-title">
+          AI unification of <span className="fh-gold">11 disparate datasets</span><br/>
+          across marketing and sales
+        </h1>
+        <p className="fh-subtitle">Synthetic data modelled on real enterprise patterns · powers the ArcLight demo on the Demo tab</p>
+        <div className="fh-stats">
+          {[['11','Datasets'],['41,804','Data Points'],['3,581','Rows'],['147','Columns'],['30','Days Activity'],['2','Systems Unified']].map(([v,l])=>(
+            <div key={l} className="fh-stat">
+              <span className="fh-stat-val"><span className="fh-stat-acc">{v}</span></span>
+              <span className="fh-stat-lbl">{l}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* Tech section — SVG is scoped to this wrapper */}
+      <div style={{position:'relative',overflow:'hidden'}}>
       <svg className="fh-svg" viewBox="0 0 1400 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <defs>
           {/* Dot grids — different densities so sides feel distinct */}
@@ -1785,29 +1809,8 @@ function FractureHero() {
           </div>
         </div>
       </div>
+      </div>{/* /tech section wrapper */}
 
-      {/* Headline */}
-      <div className="fh-bottom">
-        <div className="fh-eyebrow-bar">
-          <span className="fh-eyebrow-dot"/>
-          Growth Navigator · Demo Data
-        </div>
-        <h1 className="fh-title">
-          AI unification of <span className="fh-gold">11 disparate datasets</span><br/>
-          across marketing and sales
-        </h1>
-        <p className="fh-subtitle">Synthetic data modelled on real enterprise patterns · powers the ArcLight demo on the Demo tab</p>
-      </div>
-
-      {/* Stats */}
-      <div className="fh-stats">
-        {[['11','Datasets'],['41,804','Data Points'],['3,581','Rows'],['147','Columns'],['30','Days Activity'],['2','Systems Unified']].map(([v,l])=>(
-          <div key={l} className="fh-stat">
-            <span className="fh-stat-val"><span className="fh-stat-acc">{v}</span></span>
-            <span className="fh-stat-lbl">{l}</span>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }
