@@ -58,8 +58,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* Logo is square with whitespace padding — wordmark sits at ~55–65% vertically.
    object-fit:cover + wide box crops to that band. mix-blend-mode:multiply removes white bg. */
 .tb-lockup{display:flex;align-items:center;gap:0;flex-shrink:0;cursor:pointer;}
-.tb-logo{width:min(260px,23vw);height:56px;object-fit:cover;object-position:50% -120px;flex-shrink:0;display:block;align-self:center;transition:width .35s var(--ease),height .35s var(--ease);mix-blend-mode:multiply;}
-.topbar.compact .tb-logo{width:min(200px,20vw);height:44px;object-position:50% -96px;}
+.tb-logo{width:min(260px,23vw);height:72px;object-fit:cover;object-position:50% -108px;flex-shrink:0;display:block;align-self:center;transition:width .35s var(--ease),height .35s var(--ease);mix-blend-mode:multiply;}
+.topbar.compact .tb-logo{width:min(200px,20vw);height:58px;object-position:50% -83px;}
 .tb-nav{display:flex;align-items:center;gap:2px;}
 .tb-tab{padding:7px 16px;border-radius:99px;font-size:13px;font-weight:600;color:var(--t2);position:relative;transition:color .15s,background .15s;white-space:nowrap;}
 .tb-tab:hover{color:var(--t1);background:rgba(15,23,42,.04);}
@@ -91,8 +91,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   /* Nav */
   .mob-nav{display:flex;}
   .tb-nav{display:none;}
-  .tb-right{display:none;}
-  .aster-tb{display:none;}
+  .tb-right{display:flex;}
   /* Topbar */
   .topbar{padding:0 14px;height:60px;}
   .topbar.compact{height:52px;}
@@ -103,8 +102,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .topbar.compact .tb-logo{width:44vw;height:38px;}
   /* Toast clears bottom nav */
   .toast{bottom:calc(58px + env(safe-area-inset-bottom,0px) + 12px);}
-  /* Aster watermark clears bottom nav */
-  .aster-wm{display:flex;bottom:calc(58px + env(safe-area-inset-bottom,0px) + 10px);}
+  /* Aster is in topbar on mobile — hide the sticky watermark */
+  .aster-wm{display:none;}
+  .aster-tb{gap:4px;}
+  .aster-tb-label{display:none;}
+  .aster-tb-svg{width:52px;height:auto;}
   /* Hero */
   .hero-wrap{padding:28px 20px 48px;}
   .hero-orb-1{width:260px;height:260px;filter:blur(40px);}
