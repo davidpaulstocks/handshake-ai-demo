@@ -55,12 +55,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* TOPBAR */
 .topbar{position:fixed;top:0;left:0;right:0;z-index:400;height:var(--bar);background:rgba(255,255,255,.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;padding:0 28px;gap:16px;overflow:hidden;transition:height .35s var(--ease);}
 .topbar.compact{height:58px;}
-/* Logo is 2048×2048 with whitespace padding — wordmark sits in vertical centre band (~46–55%).
-   object-fit:cover + wide box crops to that centre band, making the wordmark fill the navbar. */
+/* Logo is square with whitespace padding — wordmark sits at ~55–65% vertically.
+   object-fit:cover + wide box crops to that band. mix-blend-mode:multiply removes white bg. */
 .tb-lockup{display:flex;align-items:center;gap:0;flex-shrink:0;cursor:pointer;}
-.tb-icon{height:46px;width:46px;object-fit:contain;flex-shrink:0;mix-blend-mode:multiply;transition:height .35s var(--ease),width .35s var(--ease);}
-.topbar.compact .tb-icon{height:38px;width:38px;}
-.tb-logo{width:min(270px,24vw);height:60px;object-fit:cover;object-position:center 50%;flex-shrink:0;display:block;transition:width .35s var(--ease),height .35s var(--ease);mix-blend-mode:multiply;}
+.tb-logo{width:min(260px,23vw);height:56px;object-fit:cover;object-position:center 58%;flex-shrink:0;display:block;transition:width .35s var(--ease),height .35s var(--ease);mix-blend-mode:multiply;}
 .topbar.compact .tb-logo{width:min(200px,22vw);height:44px;}
 .tb-nav{display:flex;align-items:center;gap:2px;}
 .tb-tab{padding:7px 16px;border-radius:99px;font-size:13px;font-weight:600;color:var(--t2);position:relative;transition:color .15s,background .15s;white-space:nowrap;}
@@ -101,9 +99,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .shell{padding-top:60px;padding-bottom:calc(58px + env(safe-area-inset-bottom,0px));}
   /* Logo */
   .tb-icon{height:36px;width:36px;}
-  .tb-logo{width:50vw;height:44px;margin-left:-8px;}
-  .topbar.compact .tb-icon{height:32px;width:32px;}
-  .topbar.compact .tb-logo{width:44vw;height:38px;margin-left:-6px;}
+  .tb-logo{width:50vw;height:44px;}
+  .topbar.compact .tb-logo{width:44vw;height:38px;}
   /* Toast clears bottom nav */
   .toast{bottom:calc(58px + env(safe-area-inset-bottom,0px) + 12px);}
   /* Aster watermark clears bottom nav */
@@ -742,7 +739,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 <div id="root"></div>
 <script type="text/babel">
 const { useState, useEffect, useRef, useCallback, useMemo } = React;
-const LOGO_HS = './handshake-ai/public/growth_navigator_logo.jpeg';
+const LOGO_HS = './handshake-ai/public/Growth_navigator_new_logo.jpeg';
 const ICON_HS  = './handshake-ai/public/icon.jpeg';
 const COMPASS_SRC = './handshake-ai/public/Compass_logo_in_blue_2K_202607201046.jpeg';
 const VIDEO_SRC = './handshake-ai/public/hero-lines.mp4';
