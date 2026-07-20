@@ -60,8 +60,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .tb-lockup{display:flex;align-items:center;gap:0;flex-shrink:0;cursor:pointer;}
 .tb-icon{height:46px;width:46px;object-fit:contain;flex-shrink:0;mix-blend-mode:multiply;transition:height .35s var(--ease),width .35s var(--ease);}
 .topbar.compact .tb-icon{height:38px;width:38px;}
-.tb-logo{width:min(270px,24vw);height:60px;object-fit:cover;object-position:center 50%;flex-shrink:0;display:block;transition:width .35s var(--ease),height .35s var(--ease);mix-blend-mode:multiply;margin-left:-20px;}
-.topbar.compact .tb-logo{width:min(200px,22vw);height:44px;margin-left:-15px;}
+.tb-logo{width:min(270px,24vw);height:60px;object-fit:cover;object-position:center 50%;flex-shrink:0;display:block;transition:width .35s var(--ease),height .35s var(--ease);mix-blend-mode:multiply;}
+.topbar.compact .tb-logo{width:min(200px,22vw);height:44px;}
 .tb-nav{display:flex;align-items:center;gap:2px;}
 .tb-tab{padding:7px 16px;border-radius:99px;font-size:13px;font-weight:600;color:var(--t2);position:relative;transition:color .15s,background .15s;white-space:nowrap;}
 .tb-tab:hover{color:var(--t1);background:rgba(15,23,42,.04);}
@@ -159,7 +159,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 @media(prefers-reduced-motion:reduce){.hero-video{display:none;}}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:5px 16px;border-radius:99px;border:1px solid var(--bdr);background:rgba(255,255,255,.9);font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t2);margin-bottom:36px;box-shadow:var(--sh-sm);backdrop-filter:blur(8px);}
 .edot{width:6px;height:6px;border-radius:50%;background:var(--grad);animation:pulse 2s ease-in-out infinite;}
-.htitle{font-size:clamp(2.4rem,6vw,4rem);font-weight:900;line-height:1.05;letter-spacing:-.04em;color:#fff;margin:0 auto 24px;max-width:640px;}
+.htitle{font-size:clamp(2.4rem,6vw,4rem);font-weight:900;line-height:1.05;letter-spacing:-.04em;color:#fff;margin:0 auto 24px;max-width:860px;}
 .grad{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .hsub{font-size:clamp(.95rem,2vw,1.12rem);color:var(--t2);line-height:1.95;max-width:620px;margin:0 auto 22px;font-weight:400;}
 .probbox{max-width:580px;margin:0 auto 40px;padding:0 0 0 22px;border-left:3px solid transparent;border-image:var(--grad) 1;position:relative;}
@@ -741,6 +741,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 const { useState, useEffect, useRef, useCallback, useMemo } = React;
 const LOGO_HS = './handshake-ai/public/growth_navigator_logo.jpeg';
 const ICON_HS  = './handshake-ai/public/icon.jpeg';
+const COMPASS_SRC = './handshake-ai/public/Compass_logo_in_blue_2K_202607201046.jpeg';
 const VIDEO_SRC = './handshake-ai/public/hero-lines.mp4';
 
 function AsterSVG({ className }) {
@@ -2005,7 +2006,6 @@ function TopBar({ page, setPage }) {
   return (
     <header className="topbar">
       <button className="tb-lockup" onClick={()=>setPage('home')} aria-label="Go to home">
-        <img src={ICON_HS} alt="" className="tb-icon" aria-hidden="true"/>
         <img src={LOGO_HS} alt="Growth Navigator" className="tb-logo"/>
       </button>
       <nav className="tb-nav">
