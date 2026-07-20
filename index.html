@@ -96,10 +96,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .topbar{padding:0 14px;height:60px;}
   .topbar.compact{height:52px;}
   .shell{padding-top:60px;padding-bottom:calc(58px + env(safe-area-inset-bottom,0px));}
-  /* Logo */
+  /* Logo — use % object-position so it scales with image width rather than inheriting pixel offset */
   .tb-icon{height:36px;width:36px;}
-  .tb-logo{width:50vw;height:44px;}
-  .topbar.compact .tb-logo{width:44vw;height:38px;}
+  .tb-logo{width:50vw;height:44px;object-position:50% 57%;}
+  .topbar.compact .tb-logo{width:44vw;height:38px;object-position:50% 59%;}
   /* Toast clears bottom nav */
   .toast{bottom:calc(58px + env(safe-area-inset-bottom,0px) + 12px);}
   /* Aster is in topbar on mobile — hide the sticky watermark */
