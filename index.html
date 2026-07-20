@@ -306,8 +306,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ACTION CARD — forward-looking, executable playbook */
 .ac-wrap{background:var(--card);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;border:1px solid var(--bdr);min-height:360px;will-change:transform;}
 .tg-card .ac-wrap{animation:none;}
-.ac-wrap.sales .ac-media{background:linear-gradient(148deg,#02050e 0%,#0f2460 50%,#1e3a8a 100%);}
-.ac-wrap.mkt   .ac-media{background:linear-gradient(148deg,#010c0a 0%,#0f4e47 50%,#0f766e 100%);}
+.ac-wrap.sales .ac-media{background:linear-gradient(148deg,#030710 0%,#0c1e4a 35%,#1a3a8a 68%,#2563eb 100%);}
+.ac-wrap.mkt   .ac-media{background:linear-gradient(148deg,#0c0519 0%,#2d0a60 38%,#5b21b6 70%,#7c3aed 100%);}
 .ac-media{height:76px;position:relative;flex-shrink:0;padding:14px 18px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;}
 .ac-media::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 25% 30%,rgba(255,255,255,.18) 0%,transparent 60%);pointer-events:none;}
 .ac-type-label{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:800;letter-spacing:.10em;text-transform:uppercase;color:rgba(255,255,255,.9);position:relative;z-index:1;line-height:1;}
@@ -323,8 +323,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .ac-steps{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
 .ac-step{display:flex;align-items:flex-start;gap:9px;}
 .ac-step-n{flex-shrink:0;width:19px;height:19px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:800;color:#fff;line-height:1;}
-.ac-wrap.sales .ac-step-n{background:#1e3a8a;}
-.ac-wrap.mkt   .ac-step-n{background:#0f766e;}
+.ac-wrap.sales .ac-step-n{background:#1a3a8a;}
+.ac-wrap.mkt   .ac-step-n{background:#5b21b6;}
 .ac-step-txt{font-size:12px;color:var(--t2);line-height:1.65;padding-top:2px;}
 /* Value section */
 .ac-value-row{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;background:rgba(61,222,110,.07);border:1px solid rgba(61,222,110,.2);margin-bottom:12px;}
@@ -653,6 +653,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   background:linear-gradient(160deg,#031433 0%,#081f4e 100%);
   position:relative;overflow:hidden;
 }
+/* Match overlay colour to the insight's priority so there's no colour jump on reveal */
+.tg-ov-left.pr-critical{background:linear-gradient(160deg,#1a0506 0%,#7f1d1d 100%);}
+.tg-ov-left.pr-high    {background:linear-gradient(160deg,#1c0a02 0%,#7c2d12 100%);}
+.tg-ov-left.pr-medium  {background:linear-gradient(160deg,#050a1a 0%,#1e3a8a 100%);}
 /* Strip CrunchView's own card-level chrome when nested in the overlay */
 .tg-ov-left .crunch-wrap{
   background:transparent;border:none;border-radius:0;
@@ -690,8 +694,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   height:100%;
 }
 .ghost-hdr-band{height:76px;}
-.g-mkt .ghost-hdr-band{background:linear-gradient(148deg,#02050e 0%,#0f4e47 50%,#0f766e 100%);}
-.g-sales .ghost-hdr-band{background:linear-gradient(148deg,#02050e 0%,#0f2460 50%,#1e3a8a 100%);}
+.g-mkt  .ghost-hdr-band{background:linear-gradient(148deg,#0c0519 0%,#2d0a60 50%,#5b21b6 100%);}
+.g-sales .ghost-hdr-band{background:linear-gradient(148deg,#030710 0%,#0c1e4a 50%,#2563eb 100%);}
 .ghost-body-pad{padding:18px 20px 22px;display:flex;flex-direction:column;gap:8px;}
 .ghost-who-row{display:flex;align-items:center;gap:11px;margin-bottom:4px;}
 .ghost-circle{width:44px;height:44px;border-radius:50%;flex-shrink:0;}
@@ -1249,7 +1253,7 @@ function TrioGroup({ unit }) {
           </div>
           {/* Processing overlay — sits absolute on top, fades out when insight is ready */}
           <div className={`tg-ic-overlay${phase>=2?' tg-ov-out':''}`}>
-            <div className="tg-ov-left">
+            <div className={`tg-ov-left pr-${pc}`}>
               {phase===1
                 ? <CrunchView sourceKey={insight.source}/>
                 : <div className="tg-ov-idle"/>}
