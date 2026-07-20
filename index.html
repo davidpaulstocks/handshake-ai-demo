@@ -148,7 +148,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .hero-orb-2{width:400px;height:400px;background:radial-gradient(circle,rgba(96,165,250,.13) 0%,transparent 70%);top:20px;right:-100px;animation:floatB 12s ease-in-out 1.5s infinite;}
 .hero-orb-3{width:300px;height:300px;background:radial-gradient(circle,rgba(3,20,51,.10) 0%,transparent 70%);bottom:-40px;left:38%;animation:floatC 7s ease-in-out 3s infinite;}
 .hero-inner{position:relative;z-index:1;max-width:900px;margin:0 auto;text-align:center;will-change:transform;}
-.hero-drawing{position:absolute;left:0;top:0;width:100%;opacity:.20;mix-blend-mode:multiply;pointer-events:none;user-select:none;will-change:transform;z-index:0;display:block;}
+.hero-video{position:absolute;left:0;top:0;width:100%;height:150%;object-fit:cover;object-position:center top;opacity:.42;mix-blend-mode:screen;pointer-events:none;user-select:none;will-change:transform;z-index:0;display:block;}
+@media(max-width:640px){.hero-video{height:100%;opacity:.3;will-change:auto;}}
+@media(prefers-reduced-motion:reduce){.hero-video{display:none;}}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:5px 16px;border-radius:99px;border:1px solid var(--bdr);background:rgba(255,255,255,.9);font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t2);margin-bottom:36px;box-shadow:var(--sh-sm);backdrop-filter:blur(8px);}
 .edot{width:6px;height:6px;border-radius:50%;background:var(--grad);animation:pulse 2s ease-in-out infinite;}
 .htitle{font-size:clamp(2.4rem,6vw,4rem);font-weight:900;line-height:1.05;letter-spacing:-.04em;color:var(--navy);margin:0 auto 24px;max-width:640px;}
@@ -729,7 +731,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 const { useState, useEffect, useRef, useCallback, useMemo } = React;
 const LOGO_HS = './handshake-ai/public/growth_navigator_logo.jpeg';
 const ICON_HS  = './handshake-ai/public/icon.jpeg';
-const DRAWING_SRC = './handshake-ai/public/drawing_for_Paralax.jpeg';
+const VIDEO_SRC = './handshake-ai/public/hero-lines.mp4';
 
 function AsterSVG({ className }) {
   return (
@@ -1539,6 +1541,7 @@ function StatCell({stat,delay,started,revClass}){
 /* HOME PAGE */
 function HomePage({ onGoFeed }) {
   const statsRef = useRef(null);
+  const videoRef = useRef(null);
   const [statsStarted, setStatsStarted] = useState(false);
 
   useEffect(()=>{
@@ -1547,6 +1550,14 @@ function HomePage({ onGoFeed }) {
     },{threshold:0.25});
     if(statsRef.current) sobs.observe(statsRef.current);
     return ()=>sobs.disconnect();
+  },[]);
+
+  /* Mobile seek unlock — play+pause immediately so currentTime can be set on iOS */
+  useEffect(()=>{
+    const vid=videoRef.current;
+    if(!vid) return;
+    const unlock=()=>{vid.play().then(()=>{vid.pause();vid.currentTime=0;}).catch(()=>{});};
+    if(vid.readyState>=1) unlock(); else vid.addEventListener('loadedmetadata',unlock,{once:true});
   },[]);
 
   useEffect(()=>{
@@ -1559,17 +1570,21 @@ function HomePage({ onGoFeed }) {
       if(o2)o2.style.transform=`translateY(${y*.08}px)`;
       const o3=document.querySelector('.hero-orb-3');
       if(o3)o3.style.transform=`translateY(${-y*.05}px)`;
-      /* Scroll-scrub: skip ~3.5% top whitespace so yeti face appears at hero top;
-         then travel remaining image height as user scrolls the full panel. */
-      const drw=document.querySelector('.hero-drawing');
+      /* Video scroll-scrub + parallax */
+      const vid=videoRef.current;
       const hw=document.querySelector('.hero-wrap');
-      if(drw&&hw){
+      if(vid&&hw){
         const panelH=hw.offsetHeight;
-        const imgH=drw.offsetWidth; // square JPEG — rendered height === rendered width
-        const skipTop=imgH*0.035; // skip empty canvas above yeti's head
-        const travel=Math.max(0,imgH-panelH-skipTop);
         const progress=Math.min(1,Math.max(0,y/panelH));
-        drw.style.transform=`translateY(${-(skipTop+progress*travel).toFixed(1)}px)`;
+        /* Scrub currentTime — drives the animation with scroll */
+        if(vid.readyState>=2&&vid.duration){
+          vid.currentTime=progress*vid.duration;
+        }
+        /* Desktop only: translateY parallax (video is 150% tall, slide upward) */
+        if(window.innerWidth>640){
+          const extra=vid.offsetHeight-panelH;
+          if(extra>0) vid.style.transform=`translateY(${-(progress*extra).toFixed(1)}px)`;
+        }
       }
       /* Hero inner: subtle zoom-out + fade as user scrolls into next section */
       const inner=document.querySelector('.hero-inner');
@@ -1598,7 +1613,7 @@ function HomePage({ onGoFeed }) {
     <div className="hpage">
       <div className="hero-wrap">
         <div className="hero-orb hero-orb-1"/><div className="hero-orb hero-orb-2"/><div className="hero-orb hero-orb-3"/>
-        <img src={DRAWING_SRC} alt="" className="hero-drawing" aria-hidden="true"/>
+        <video ref={videoRef} src={VIDEO_SRC} className="hero-video" muted playsInline preload="auto" aria-hidden="true"/>
         <div className="hero-inner">
           <h1 className="htitle"><span className="grad">Transform Marketing</span><br/>and Sales into a<br/><span className="grad">Unified Growth Function</span></h1>
           <p className="hsub">Growth Navigator is the AI-native insight layer that unifies Marketing and Sales by connecting experience data to revenue outcomes, delivering actionable intelligence directly into the tools your teams already use.</p>
