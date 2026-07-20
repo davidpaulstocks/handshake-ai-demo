@@ -607,6 +607,93 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 @keyframes zgDraw{from{stroke-dashoffset:660}to{stroke-dashoffset:0}}
 .fh-zg-line{stroke-dasharray:660;stroke-dashoffset:660;animation:zgDraw 1.6s cubic-bezier(.16,1,.3,1) .15s both;}
+/* ══════════════════════════════════════════════════════════════════════════
+   TRIO GROUP — Constant-shape insight reveal + ghost action skeleton system
+   ══════════════════════════════════════════════════════════════════════════ */
+
+/* Shimmer keyframe — single source of truth for all skeleton bones */
+@keyframes skimmer{0%{background-position:-300% 0}100%{background-position:300% 0}}
+@keyframes ghostBreathe{0%,100%{opacity:.72}50%{opacity:1}}
+@keyframes ovIdlePulse{0%,100%{opacity:.45}50%{opacity:.9}}
+@keyframes tgSlotIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* Skeleton bone — reusable shimmer strip */
+.g-bone{
+  border-radius:6px;
+  background:linear-gradient(90deg,var(--sub) 25%,rgba(240,243,252,.97) 50%,var(--sub) 75%);
+  background-size:300% 100%;
+  animation:skimmer 1.9s linear infinite;
+}
+
+/* ── Insight zone overlay ── */
+.tg-ic-wrap{position:relative;}
+
+.tg-ic-reveal{opacity:0;transition:opacity .85s cubic-bezier(.16,1,.3,1);}
+.tg-ic-reveal.ic-on{opacity:1;}
+
+.tg-ic-overlay{
+  position:absolute;inset:0;z-index:10;
+  border-radius:var(--r);overflow:hidden;
+  display:flex;
+  transition:opacity .85s cubic-bezier(.16,1,.3,1);
+  pointer-events:none;
+}
+.tg-ic-overlay.tg-ov-out{opacity:0;pointer-events:none;}
+
+.tg-ov-left{
+  width:35%;flex-shrink:0;
+  background:linear-gradient(160deg,#031433 0%,#081f4e 100%);
+  position:relative;overflow:hidden;
+}
+/* Strip CrunchView's own card-level chrome when nested in the overlay */
+.tg-ov-left .crunch-wrap{
+  background:transparent;border:none;border-radius:0;
+  min-height:0;height:100%;padding:14px 12px 12px;
+}
+.tg-ov-left .crunch-wrap::before{display:none;}
+
+.tg-ov-idle{position:absolute;inset:0;background:radial-gradient(circle 200px at 40% 55%,rgba(37,99,235,.18),transparent 70%);animation:ovIdlePulse 2.8s ease-in-out infinite;}
+
+.tg-ov-right{
+  flex:1;
+  background:var(--card);
+  padding:22px 24px;
+  display:flex;flex-direction:column;gap:9px;
+}
+
+/* ── Ghost action skeleton ── */
+.tg-slot-contain{position:relative;}
+.tg-slot-real{opacity:0;transition:opacity .65s cubic-bezier(.16,1,.3,1);}
+.tg-slot-real.slot-on{opacity:1;}
+
+.tg-ghost-veil{
+  position:absolute;inset:0;z-index:5;
+  border-radius:var(--r);overflow:hidden;
+  transition:opacity .65s cubic-bezier(.16,1,.3,1);
+  pointer-events:none;
+}
+.tg-ghost-veil.veil-out{opacity:0;}
+
+.tg-ghost-card{
+  border-radius:var(--r);overflow:hidden;
+  background:var(--card);
+  border:1px solid var(--bdr);
+  animation:ghostBreathe 2.6s ease-in-out infinite;
+  height:100%;
+}
+.ghost-hdr-band{height:76px;}
+.g-mkt .ghost-hdr-band{background:linear-gradient(148deg,#02050e 0%,#0f4e47 50%,#0f766e 100%);}
+.g-sales .ghost-hdr-band{background:linear-gradient(148deg,#02050e 0%,#0f2460 50%,#1e3a8a 100%);}
+.ghost-body-pad{padding:18px 20px 22px;display:flex;flex-direction:column;gap:8px;}
+.ghost-who-row{display:flex;align-items:center;gap:11px;margin-bottom:4px;}
+.ghost-circle{width:44px;height:44px;border-radius:50%;flex-shrink:0;}
+.ghost-name-stack{flex:1;display:flex;flex-direction:column;gap:7px;}
+.ghost-sep{height:1px;background:var(--bdr);margin:4px 0;}
+.ghost-val-bone{height:40px;border-radius:10px;margin-top:4px;}
+
+/* Connector entrance — restated here with new name to avoid conflict */
+.tg-yield-enter{animation:tgSlotIn .48s cubic-bezier(.16,1,.3,1) both;}
+
 /* ── LATE MOBILE OVERRIDES — must come after all desktop rules to win cascade ── */
 @media(max-width:640px){
   .shell{padding-top:60px;}
@@ -1037,29 +1124,52 @@ function ActionCard({ notif, type, tech }) {
 }
 
 /* TRIO GROUP — vertical: insight (full-w) → causal connector → actions (2-col) */
+function GhostSlot({type}){
+  const bones=[88,72,55,80];
+  return (
+    <div className={`tg-ghost-card g-${type}`}>
+      <div className="ghost-hdr-band"/>
+      <div className="ghost-body-pad">
+        <div className="ghost-who-row">
+          <div className="ghost-circle g-bone" style={{animationDelay:'0s'}}/>
+          <div className="ghost-name-stack">
+            <div className="g-bone" style={{height:'13px',width:'58%',borderRadius:'5px',animationDelay:'.08s'}}/>
+            <div className="g-bone" style={{height:'9px',width:'38%',borderRadius:'4px',animationDelay:'.18s'}}/>
+          </div>
+        </div>
+        <div className="g-bone" style={{height:'24px',width:'105px',borderRadius:'7px',animationDelay:'.05s'}}/>
+        <div className="ghost-sep"/>
+        <div className="g-bone" style={{height:'9px',width:'72px',borderRadius:'4px',marginBottom:'8px',animationDelay:'.1s'}}/>
+        {bones.map((w,i)=>(
+          <div key={i} className="g-bone" style={{height:'12px',width:`${w}%`,borderRadius:'5px',animationDelay:`${i*.12}s`}}/>
+        ))}
+        <div className="ghost-val-bone g-bone" style={{animationDelay:'.08s'}}/>
+      </div>
+    </div>
+  );
+}
+
 function TrioGroup({ unit }) {
-  const [triggered, setTriggered] = useState(false);
-  const [crunching, setCrunching] = useState(true);
+  const [phase, setPhase] = useState(0);
   const wrapRef = useRef(null);
 
   useEffect(()=>{
     const obs=new IntersectionObserver(entries=>{
-      entries.forEach(e=>{if(e.isIntersecting){setTriggered(true);obs.disconnect();}});
+      entries.forEach(e=>{if(e.isIntersecting){setPhase(1);obs.disconnect();}});
     },{threshold:0.06});
     if(wrapRef.current) obs.observe(wrapRef.current);
     return ()=>obs.disconnect();
   },[]);
 
   useEffect(()=>{
-    if(!triggered) return;
-    const tc=setTimeout(()=>setCrunching(false),2200);
-    return ()=>clearTimeout(tc);
-  },[triggered]);
+    if(phase===1){const t=setTimeout(()=>setPhase(2),2200);return()=>clearTimeout(t);}
+    if(phase===2){const t=setTimeout(()=>setPhase(3),520);return()=>clearTimeout(t);}
+    if(phase===3){const t=setTimeout(()=>setPhase(4),620);return()=>clearTimeout(t);}
+  },[phase]);
 
   const { insight, mktNotif, salesNotif } = unit;
   const pc = insight.prio.toLowerCase();
   const actionCount = (mktNotif?1:0) + (salesNotif?1:0);
-  const revealed = triggered && !crunching;
 
   return (
     <div className="trio-group" ref={wrapRef}>
@@ -1071,28 +1181,44 @@ function TrioGroup({ unit }) {
         <span className="tg-meta"><b>{insight.source}</b> · {fmtDate(insight.date)}</span>
         {insight.hl && <span className="tg-flag">⚑ Flagged</span>}
         <div className="tg-status">
-          {!triggered && <span className="tg-status-wait">—</span>}
-          {triggered && crunching && <span className="tg-status-ana">Analysing…</span>}
-          {revealed && <span className="tg-status-done">✓ {actionCount} action{actionCount!==1?'s':''} ready</span>}
+          {phase===0 && <span className="tg-status-wait">—</span>}
+          {phase===1 && <span className="tg-status-ana">Analysing…</span>}
+          {phase>=2 && <span className="tg-status-done">✓ {actionCount} action{actionCount!==1?'s':''} ready</span>}
         </div>
       </div>
 
-      {/* Zone 1 — always full-width: waiting → crunch → insight (no shape shift) */}
+      {/* Zone 1 — constant container: overlay covers real card, then cross-fades away */}
       <div className="tg-insight-zone">
-        {!triggered ? (
-          <div className="tg-waiting">
-            <div className="tg-waiting-spin"/>
-            <span className="tg-waiting-lbl">Scroll to analyse</span>
+        <div className="tg-ic-wrap">
+          {/* Real card always present — drives container height, never shape-shifts */}
+          <div className={`tg-ic-reveal${phase>=2?' ic-on':''}`}>
+            <InsightCard insight={insight} fullWidth/>
           </div>
-        ) : crunching ? (
-          <CrunchView sourceKey={insight.source}/>
-        ) : (
-          <InsightCard insight={insight} fullWidth/>
-        )}
+          {/* Processing overlay — sits absolute on top, fades out when insight is ready */}
+          <div className={`tg-ic-overlay${phase>=2?' tg-ov-out':''}`}>
+            <div className="tg-ov-left">
+              {phase===1
+                ? <CrunchView sourceKey={insight.source}/>
+                : <div className="tg-ov-idle"/>}
+            </div>
+            <div className="tg-ov-right">
+              <div className="g-bone" style={{height:'19px',width:'66%',borderRadius:'7px',animationDelay:'0s'}}/>
+              <div style={{display:'flex',gap:'8px',marginBottom:'2px'}}>
+                <div className="g-bone" style={{height:'24px',width:'90px',borderRadius:'6px',animationDelay:'.1s'}}/>
+                <div className="g-bone" style={{height:'24px',width:'110px',borderRadius:'6px',animationDelay:'.16s'}}/>
+              </div>
+              <div style={{height:'1px',background:'var(--bdr)',margin:'4px 0 8px'}}/>
+              <div className="g-bone" style={{height:'9px',width:'68px',borderRadius:'4px',animationDelay:'.08s',marginBottom:'14px'}}/>
+              <div className="g-bone" style={{height:'13px',width:'96%',borderRadius:'5px',animationDelay:'0s'}}/>
+              <div className="g-bone" style={{height:'13px',width:'82%',borderRadius:'5px',animationDelay:'.13s'}}/>
+              <div className="g-bone" style={{height:'13px',width:'61%',borderRadius:'5px',animationDelay:'.26s'}}/>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Zone 2 — causal connector (insight → actions) */}
-      {revealed && actionCount > 0 && (
+      {/* Zone 2 — causal connector: appears when insight is revealed */}
+      {phase>=2 && actionCount>0 && (
         <div className="tg-yield">
           <div className="tg-yield-line"/>
           <div className="tg-yield-badge">
@@ -1103,11 +1229,29 @@ function TrioGroup({ unit }) {
         </div>
       )}
 
-      {/* Zone 3 — action cards, staggered via CSS animation-delay */}
-      {revealed && actionCount > 0 && (
+      {/* Zone 3 — ghost slots from phase 1, real cards stagger in at phase 3 / 4 */}
+      {phase>=1 && actionCount>0 && (
         <div className={`tg-actions${actionCount===1?' single':''}`}>
-          {mktNotif && <div className="tg-action-slot tg-mkt"><ActionCard notif={mktNotif} type="mkt" tech={insight.tech}/></div>}
-          {salesNotif && <div className="tg-action-slot tg-sales"><ActionCard notif={salesNotif} type="sales" tech={insight.tech}/></div>}
+          {mktNotif && (
+            <div className="tg-action-slot tg-mkt tg-slot-contain">
+              <div className={`tg-slot-real${phase>=3?' slot-on':''}`}>
+                <ActionCard notif={mktNotif} type="mkt" tech={insight.tech}/>
+              </div>
+              <div className={`tg-ghost-veil${phase>=3?' veil-out':''}`}>
+                <GhostSlot type="mkt"/>
+              </div>
+            </div>
+          )}
+          {salesNotif && (
+            <div className="tg-action-slot tg-sales tg-slot-contain">
+              <div className={`tg-slot-real${phase>=4?' slot-on':''}`}>
+                <ActionCard notif={salesNotif} type="sales" tech={insight.tech}/>
+              </div>
+              <div className={`tg-ghost-veil${phase>=4?' veil-out':''}`}>
+                <GhostSlot type="sales"/>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
