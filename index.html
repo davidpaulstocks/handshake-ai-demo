@@ -1013,8 +1013,6 @@ function InsightCard({ insight, fullWidth }) {
           </div>
           <Sparkline id={insight.id} color={chartColor}/>
         </div>
-        {/* Urgency strip */}
-        {urg && <div style={{position:'absolute',bottom:0,left:0,right:0,padding:'5px 18px',background:'rgba(0,0,0,.22)',fontFamily:"'IBM Plex Mono',monospace",fontSize:'9px',fontWeight:700,letterSpacing:'.08em',textTransform:'uppercase',color:'rgba(255,255,255,.95)',zIndex:2,animation:'shimmer 2.2s ease-in-out infinite'}}>{urg}</div>}
       </div>
       <div className="ic-body">
         <div className="ic-title">{insight.title}</div>
