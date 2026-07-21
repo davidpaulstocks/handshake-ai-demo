@@ -305,8 +305,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ACTION CARD — forward-looking, executable playbook */
 .ac-wrap{background:var(--card);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;border:1px solid var(--bdr);min-height:360px;will-change:transform;}
 .tg-card .ac-wrap{animation:none;}
-.ac-wrap.sales .ac-media{background:linear-gradient(148deg,#030710 0%,#0c1e4a 35%,#1a3a8a 68%,#2563eb 100%);}
-.ac-wrap.mkt   .ac-media{background:linear-gradient(148deg,#0c0519 0%,#2d0a60 38%,#5b21b6 70%,#7c3aed 100%);}
+.ac-wrap.sales .ac-media{background:linear-gradient(148deg,#010510 0%,#071640 35%,#0f2d7a 65%,#1a52c8 100%);}
+.ac-wrap.mkt   .ac-media{background:linear-gradient(148deg,#020c28 0%,#0d2c6a 38%,#1858c0 70%,#3a84e8 100%);}
 .ac-media{height:76px;position:relative;flex-shrink:0;padding:14px 18px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;}
 .ac-media::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 25% 30%,rgba(255,255,255,.18) 0%,transparent 60%);pointer-events:none;}
 .ac-type-label{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:800;letter-spacing:.10em;text-transform:uppercase;color:rgba(255,255,255,.9);position:relative;z-index:1;line-height:1;}
@@ -322,8 +322,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .ac-steps{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
 .ac-step{display:flex;align-items:flex-start;gap:9px;}
 .ac-step-n{flex-shrink:0;width:19px;height:19px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:800;color:#fff;line-height:1;}
-.ac-wrap.sales .ac-step-n{background:#1a3a8a;}
-.ac-wrap.mkt   .ac-step-n{background:#5b21b6;}
+.ac-wrap.sales .ac-step-n{background:#0f2d7a;}
+.ac-wrap.mkt   .ac-step-n{background:#1858c0;}
 .ac-step-txt{font-size:12px;color:var(--t2);line-height:1.65;padding-top:2px;}
 /* Value section */
 .ac-value-row{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;background:rgba(61,222,110,.07);border:1px solid rgba(61,222,110,.2);margin-bottom:12px;}
@@ -459,17 +459,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .tg-waiting-spin{width:24px;height:24px;border-radius:50%;border:2px solid rgba(96,165,250,.11);border-top-color:rgba(96,165,250,.26);animation:spin 1.6s linear infinite;}
 .tg-waiting-lbl{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(96,165,250,.18);}
 
-/* Right-angle diagram connector — structure-first, content fills in after */
-.tg-fork{position:relative;padding:0 14px;height:56px;}
-.tg-fork-svg{display:block;width:100%;height:56px;}
-/* Connector lines — light, structural, never animated */
-.fork-rail{stroke:rgba(37,99,235,.18);stroke-width:1.5;fill:none;stroke-linecap:square;stroke-linejoin:miter;}
-/* Junction dot */
-.fork-jct{fill:rgba(37,99,235,.32);}
-/* Arrowhead triangles */
-.fork-arr{fill:rgba(37,99,235,.25);}
-/* Synthesis label — plain text at junction, fades in when synthesis completes */
-.tg-fork-label{position:absolute;top:14px;left:50%;transform:translateX(-50%);font-family:'IBM Plex Mono',monospace;font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(37,99,235,.42);white-space:nowrap;pointer-events:none;background:rgba(244,246,251,.9);padding:2px 8px;border-radius:3px;opacity:0;transition:opacity .4s ease;}
+/* Diagram connector — right-angle with rounded corners, single brand colour */
+.tg-fork{position:relative;padding:0 14px;height:60px;}
+.tg-fork-svg{display:block;width:100%;height:60px;}
+/* All connector geometry shares one colour — navy at low opacity */
+.fork-rail{fill:none;stroke:rgba(3,20,51,.26);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.fork-jct{fill:none;stroke:rgba(3,20,51,.32);stroke-width:1.5;}
+.fork-term{fill:rgba(3,20,51,.32);}
+/* Synthesis label */
+.tg-fork-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'IBM Plex Mono',monospace;font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(3,20,51,.38);white-space:nowrap;pointer-events:none;background:rgba(244,246,251,.88);padding:2px 8px;border-radius:3px;opacity:0;transition:opacity .4s ease;}
 .tg-fork-label.show{opacity:1;}
 @media(max-width:640px){
   .tg-fork{height:auto;min-height:32px;padding:6px 0;display:flex;justify-content:center;align-items:center;}
@@ -708,8 +706,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   height:100%;
 }
 .ghost-hdr-band{height:76px;}
-.g-mkt  .ghost-hdr-band{background:linear-gradient(148deg,#0c0519 0%,#2d0a60 50%,#5b21b6 100%);}
-.g-sales .ghost-hdr-band{background:linear-gradient(148deg,#030710 0%,#0c1e4a 50%,#2563eb 100%);}
+.g-mkt  .ghost-hdr-band{background:linear-gradient(148deg,#020c28 0%,#0d2c6a 50%,#1858c0 100%);}
+.g-sales .ghost-hdr-band{background:linear-gradient(148deg,#010510 0%,#071640 50%,#1a52c8 100%);}
 .ghost-body-pad{padding:18px 20px 22px;display:flex;flex-direction:column;gap:8px;}
 .ghost-who-row{display:flex;align-items:center;gap:11px;margin-bottom:4px;}
 .ghost-circle{width:44px;height:44px;border-radius:50%;flex-shrink:0;}
@@ -1325,32 +1323,33 @@ function TrioGroup({ unit }) {
 }
 
 function ForkConnector({ actionCount, hasBoth, showLabel }) {
-  /* Right-angle T-junction diagram. viewBox 0 0 200 56, preserveAspectRatio:none
-     so x=50 → 25% (left card center), x=150 → 75% (right card center) */
+  /*
+   * viewBox 0 0 200 60, preserveAspectRatio:none
+   * x=50  → 25% of width → centre of left (marketing) card
+   * x=150 → 75% of width → centre of right (sales) card
+   * Rounded corners via Q-bezier at each 90° bend (radius ≈ 10 units)
+   */
   return (
     <div className="tg-fork">
-      <svg className="tg-fork-svg" viewBox="0 0 200 56" preserveAspectRatio="none" aria-hidden="true">
+      <svg className="tg-fork-svg" viewBox="0 0 200 60" preserveAspectRatio="none" aria-hidden="true">
         {hasBoth ? (
           <>
-            {/* Vertical stem from insight */}
-            <line className="fork-rail" x1="100" y1="0" x2="100" y2="16"/>
-            {/* Horizontal crossbar */}
-            <line className="fork-rail" x1="50" y1="16" x2="150" y2="16"/>
-            {/* Left vertical drop to marketing card */}
-            <line className="fork-rail" x1="50" y1="16" x2="50" y2="46"/>
-            {/* Right vertical drop to sales card */}
-            <line className="fork-rail" x1="150" y1="16" x2="150" y2="46"/>
-            {/* Junction dot */}
-            <circle className="fork-jct" cx="100" cy="16" r="2.5"/>
-            {/* Left arrowhead ▼ */}
-            <polygon className="fork-arr" points="50,54 45.5,46 54.5,46"/>
-            {/* Right arrowhead ▼ */}
-            <polygon className="fork-arr" points="150,54 145.5,46 154.5,46"/>
+            {/* Left branch: stem → rounded bend left → crossbar → rounded bend down → drop */}
+            <path className="fork-rail"
+              d="M 100 0 L 100 10 Q 100 20 90 20 L 60 20 Q 50 20 50 30 L 50 56"/>
+            {/* Right branch: from stem junction → rounded bend right → crossbar → rounded bend down → drop */}
+            <path className="fork-rail"
+              d="M 100 10 Q 100 20 110 20 L 140 20 Q 150 20 150 30 L 150 56"/>
+            {/* Junction circle — where stem splits */}
+            <circle className="fork-jct" cx="100" cy="10" r="3"/>
+            {/* Terminal dots — where drops meet card tops */}
+            <circle className="fork-term" cx="50"  cy="56" r="2.2"/>
+            <circle className="fork-term" cx="150" cy="56" r="2.2"/>
           </>
         ) : (
           <>
-            <line className="fork-rail" x1="100" y1="0" x2="100" y2="46"/>
-            <polygon className="fork-arr" points="100,54 95.5,46 104.5,46"/>
+            <path className="fork-rail" d="M 100 0 L 100 56"/>
+            <circle className="fork-term" cx="100" cy="56" r="2.2"/>
           </>
         )}
       </svg>
