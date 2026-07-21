@@ -459,21 +459,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .tg-waiting-spin{width:24px;height:24px;border-radius:50%;border:2px solid rgba(96,165,250,.11);border-top-color:rgba(96,165,250,.26);animation:spin 1.6s linear infinite;}
 .tg-waiting-lbl{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(96,165,250,.18);}
 
-/* Diagram connector — right-angle with rounded corners, single brand colour */
-.tg-fork{position:relative;padding:0 14px;height:60px;}
+/* Diagram connector — right-angle with rounded bends, single bold stroke */
+.tg-fork{padding:0 14px;height:60px;}
 .tg-fork-svg{display:block;width:100%;height:60px;}
-/* All connector geometry shares one colour — navy at low opacity */
-.fork-rail{fill:none;stroke:rgba(3,20,51,.26);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
-.fork-jct{fill:none;stroke:rgba(3,20,51,.32);stroke-width:1.5;}
-.fork-term{fill:rgba(3,20,51,.32);}
-/* Synthesis label */
-.tg-fork-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'IBM Plex Mono',monospace;font-size:7px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(3,20,51,.38);white-space:nowrap;pointer-events:none;background:rgba(244,246,251,.88);padding:2px 8px;border-radius:3px;opacity:0;transition:opacity .4s ease;}
-.tg-fork-label.show{opacity:1;}
+.fork-rail{fill:none;stroke:rgba(3,20,51,.3);stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;}
 @media(max-width:640px){
-  .tg-fork{height:auto;min-height:32px;padding:6px 0;display:flex;justify-content:center;align-items:center;}
-  .tg-fork-svg{display:none;}
-  .tg-fork-label{position:static;transform:none;opacity:0;}
-  .tg-fork-label.show{opacity:1;}
+  .tg-fork{display:none;}
 }
 
 /* Actions grid — 2-col below the insight */
@@ -1288,9 +1279,9 @@ function TrioGroup({ unit }) {
         </div>
       </div>
 
-      {/* Zone 2 — diagram connector: structure visible from phase 1, label appears at phase 2 */}
+      {/* Zone 2 — diagram connector: structure visible from phase 1 */}
       {phase>=1 && actionCount>0 && (
-        <ForkConnector actionCount={actionCount} hasBoth={!!(mktNotif && salesNotif)} showLabel={phase>=2}/>
+        <ForkConnector hasBoth={!!(mktNotif && salesNotif)}/>
       )}
 
       {/* Zone 3 — ghost slots from phase 1, real cards stagger in at phase 3 / 4 */}
@@ -1322,40 +1313,27 @@ function TrioGroup({ unit }) {
   );
 }
 
-function ForkConnector({ actionCount, hasBoth, showLabel }) {
+function ForkConnector({ hasBoth }) {
   /*
    * viewBox 0 0 200 60, preserveAspectRatio:none
-   * x=50  → 25% of width → centre of left (marketing) card
-   * x=150 → 75% of width → centre of right (sales) card
-   * Rounded corners via Q-bezier at each 90° bend (radius ≈ 10 units)
+   * x=50  → 25% width → centre of left (marketing) card
+   * x=150 → 75% width → centre of right (sales) card
+   * Two paths share a start point at the stem end — stroke-linecap:butt keeps it clean.
    */
   return (
     <div className="tg-fork">
       <svg className="tg-fork-svg" viewBox="0 0 200 60" preserveAspectRatio="none" aria-hidden="true">
         {hasBoth ? (
           <>
-            {/* Left branch: stem → rounded bend left → crossbar → rounded bend down → drop */}
-            <path className="fork-rail"
-              d="M 100 0 L 100 10 Q 100 20 90 20 L 60 20 Q 50 20 50 30 L 50 56"/>
-            {/* Right branch: from stem junction → rounded bend right → crossbar → rounded bend down → drop */}
-            <path className="fork-rail"
-              d="M 100 10 Q 100 20 110 20 L 140 20 Q 150 20 150 30 L 150 56"/>
-            {/* Junction circle — where stem splits */}
-            <circle className="fork-jct" cx="100" cy="10" r="3"/>
-            {/* Terminal dots — where drops meet card tops */}
-            <circle className="fork-term" cx="50"  cy="56" r="2.2"/>
-            <circle className="fork-term" cx="150" cy="56" r="2.2"/>
+            {/* Left arm: stem down, Q-bend left, crossbar, Q-bend down, drop */}
+            <path className="fork-rail" d="M 100 0 L 100 10 Q 100 20 90 20 L 60 20 Q 50 20 50 30 L 50 60"/>
+            {/* Right arm: from stem end, Q-bend right, crossbar, Q-bend down, drop */}
+            <path className="fork-rail" d="M 100 10 Q 100 20 110 20 L 140 20 Q 150 20 150 30 L 150 60"/>
           </>
         ) : (
-          <>
-            <path className="fork-rail" d="M 100 0 L 100 56"/>
-            <circle className="fork-term" cx="100" cy="56" r="2.2"/>
-          </>
+          <path className="fork-rail" d="M 100 0 L 100 60"/>
         )}
       </svg>
-      <div className={`tg-fork-label${showLabel?' show':''}`}>
-        ⚡ Growth Navigator synthesised {actionCount} action{actionCount!==1?'s':''}
-      </div>
     </div>
   );
 }
