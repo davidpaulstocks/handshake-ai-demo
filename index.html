@@ -126,7 +126,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .val-avatar{width:42px;height:42px;font-size:13px;}
   /* Feed */
   .feed-page{padding:0 14px 32px;}
-  .scene-banner{padding:20px 16px;}
   .ic-wrap,.ac-wrap{min-height:0;}
   .ic-body,.ac-body{flex:none;}
   .tg-hdr{padding:9px 12px;}
@@ -370,27 +369,35 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .val-sm-top{display:flex;align-items:center;gap:12px;}
 .val-sm-q{font-size:12.5px;color:rgba(240,237,232,.7);line-height:1.75;font-weight:400;}
 
-/* ── Scene Banner (ArcLight) ── */
-.scene-banner{background:var(--navy);padding:36px 48px;margin:0 -24px;position:relative;overflow:hidden;}
-.scene-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(circle 560px at 75% 50%,rgba(37,99,235,.20),transparent 70%);pointer-events:none;}
-.scene-inner{position:relative;z-index:1;max-width:1270px;margin:0 auto;}
-.scene-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:rgba(96,165,250,.65);margin-bottom:14px;}
-.scene-cols{display:flex;gap:48px;align-items:flex-start;flex-wrap:wrap;}
-.scene-left{flex:1.4;min-width:260px;}
-.scene-title{font-size:clamp(1rem,2.2vw,1.35rem);font-weight:800;color:#F0EDE8;line-height:1.45;margin-bottom:10px;letter-spacing:-.02em;}
-.scene-desc{font-size:12.5px;color:rgba(240,237,232,.55);line-height:1.85;margin-bottom:18px;}
-.scene-desc em{color:rgba(240,237,232,.8);font-style:normal;font-weight:500;}
-.scene-stats{display:flex;gap:0;flex-wrap:wrap;border:1px solid rgba(255,255,255,.09);border-radius:12px;overflow:hidden;}
-.scene-stat{flex:1;min-width:80px;padding:14px 16px;border-right:1px solid rgba(255,255,255,.08);}
-.scene-stat:last-child{border-right:none;}
-@media(max-width:560px){.scene-stat{border-right:none;border-bottom:1px solid rgba(255,255,255,.08);flex-basis:50%;} .scene-stat:nth-last-child(-n+2):not(:nth-child(odd) ~ .scene-stat){border-bottom:none;}}
-.scene-stat-n{font-family:'IBM Plex Mono',monospace;font-size:clamp(1rem,2.2vw,1.35rem);font-weight:800;color:#60A5FA;letter-spacing:-.03em;}
-.scene-stat-l{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(240,237,232,.35);margin-top:3px;}
-.scene-right{flex:1;min-width:200px;display:flex;flex-direction:column;gap:8px;}
-.scene-oc{display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,255,255,.04);border-radius:10px;border:1px solid rgba(255,255,255,.07);}
-.scene-oc-val{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:800;color:#60A5FA;min-width:52px;}
-.scene-oc-lbl{font-size:12px;color:rgba(240,237,232,.55);}
-.scene-scroll-hint{margin-top:14px;font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(240,237,232,.22);text-align:center;}
+/* ── ArcLight Company Brief Card ── */
+.scene-card{background:var(--card);border:1px solid var(--bmd);border-radius:var(--r);box-shadow:var(--sh-md);overflow:hidden;margin-bottom:28px;}
+.scene-card-inner{display:flex;min-height:180px;}
+/* Left — company identity */
+.scene-id{flex:1.1;padding:28px 32px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--bdr);}
+.scene-tag{display:inline-flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);background:rgba(37,99,235,.07);border:1px solid rgba(37,99,235,.15);border-radius:5px;padding:3px 9px;margin-bottom:14px;width:fit-content;}
+.scene-co{font-size:clamp(24px,3.2vw,34px);font-weight:900;color:var(--navy);letter-spacing:-.04em;line-height:1;margin-bottom:10px;}
+.scene-blurb{font-size:14px;color:var(--t2);line-height:1.65;max-width:380px;}
+.scene-blurb strong{color:var(--t1);font-weight:600;}
+/* Data ingested pills */
+.scene-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px;}
+.scene-pill{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.04em;color:var(--t3);background:var(--sub);border:1px solid var(--bdr);border-radius:5px;padding:4px 9px;white-space:nowrap;}
+/* Right — outcome metrics */
+.scene-results{flex:1;padding:28px 32px;background:var(--sub);display:flex;flex-direction:column;justify-content:space-between;}
+.scene-results-label{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--t3);margin-bottom:18px;}
+.scene-metrics{display:grid;grid-template-columns:1fr 1fr;gap:16px 24px;flex:1;}
+.scene-metric{display:flex;flex-direction:column;gap:3px;}
+.scene-metric-n{font-size:clamp(20px,2.8vw,28px);font-weight:900;color:var(--blue);letter-spacing:-.04em;line-height:1;}
+.scene-metric-l{font-size:12px;color:var(--t2);line-height:1.3;}
+.scene-hint{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-top:16px;}
+/* Mobile */
+@media(max-width:640px){
+  .scene-card-inner{flex-direction:column;}
+  .scene-id{border-right:none;border-bottom:1px solid var(--bdr);padding:22px 20px;}
+  .scene-results{padding:22px 20px;}
+  .scene-metrics{grid-template-columns:1fr 1fr;gap:14px 20px;}
+  .scene-co{font-size:26px;}
+  .scene-metric-n{font-size:22px;}
+}
 
 /* ── Date Timeline Markers ── */
 .date-marker-wrap{grid-column:1/-1;display:flex;align-items:center;gap:14px;padding:24px 0 8px;animation:fadeUp .35s var(--ease) both;}
@@ -723,7 +730,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .possec{padding:0 16px 48px;}
   .poscard{padding:28px 20px;border-radius:16px;}
   .feed-page{padding:0 14px 32px;}
-  .scene-banner{padding:20px 16px;margin:0 -14px;}
   .val-section{padding:28px 20px;}
   .val-featured{flex-direction:column;gap:12px;}
   .val-avatar{width:42px;height:42px;font-size:13px;}
@@ -1393,28 +1399,49 @@ function StickyCal({currentDate}){
 
 function SceneBanner(){
   return (
-    <div className="scene-banner">
-      <div className="scene-inner">
-        <div className="scene-eyebrow">ArcLight · Fictional Demo Company</div>
-        <div className="scene-cols">
-          <div className="scene-left">
-            <h2 className="scene-title">Meet ArcLight — a fictional company built for this demo</h2>
-            <p className="scene-desc"><em>ArcLight is a fictionalised professional services firm.</em> Marketing and Sales operated from different data and different KPIs — in conflict every quarter. Growth Navigator unified 30 days of their activity into a single intelligence picture.</p>
-            <div className="scene-stats">
-              <div className="scene-stat"><div className="scene-stat-n">11</div><div className="scene-stat-l">datasets</div></div>
-              <div className="scene-stat"><div className="scene-stat-n">22</div><div className="scene-stat-l">tools</div></div>
-              <div className="scene-stat"><div className="scene-stat-n">41,804</div><div className="scene-stat-l">data pts</div></div>
-              <div className="scene-stat"><div className="scene-stat-n">30</div><div className="scene-stat-l">days</div></div>
-            </div>
+    <div className="scene-card">
+      <div className="scene-card-inner">
+
+        {/* Left — company identity */}
+        <div className="scene-id">
+          <div>
+            <div className="scene-tag">Demo scenario · Fictional company</div>
+            <div className="scene-co">ArcLight</div>
+            <p className="scene-blurb">A partner-owned professional services firm where <strong>Marketing and Sales operated from different data and conflicting KPIs</strong> — every quarter. Growth Navigator ingested 30 days of activity across both teams and surfaced the intelligence below.</p>
           </div>
-          <div className="scene-right">
-            <div className="scene-oc"><span className="scene-oc-val">↑ 32%</span><span className="scene-oc-lbl">Pipeline increase</span></div>
-            <div className="scene-oc"><span className="scene-oc-val">↓ 18%</span><span className="scene-oc-lbl">Customer acquisition cost</span></div>
-            <div className="scene-oc"><span className="scene-oc-val">7.1×</span><span className="scene-oc-lbl">Year-one ROI</span></div>
-            <div className="scene-oc"><span className="scene-oc-val">6 mo</span><span className="scene-oc-lbl">Payback period</span></div>
-            <p className="scene-scroll-hint">↓ Scroll through 30 days of live intelligence</p>
+          <div className="scene-pills">
+            <span className="scene-pill">11 datasets</span>
+            <span className="scene-pill">22 tools</span>
+            <span className="scene-pill">41,804 data points</span>
+            <span className="scene-pill">30 days of signal</span>
+            <span className="scene-pill">2 teams unified</span>
           </div>
         </div>
+
+        {/* Right — outcomes */}
+        <div className="scene-results">
+          <div className="scene-results-label">Growth Navigator outcomes</div>
+          <div className="scene-metrics">
+            <div className="scene-metric">
+              <div className="scene-metric-n">↑ 32%</div>
+              <div className="scene-metric-l">Pipeline increase</div>
+            </div>
+            <div className="scene-metric">
+              <div className="scene-metric-n">↓ 18%</div>
+              <div className="scene-metric-l">Customer acquisition cost</div>
+            </div>
+            <div className="scene-metric">
+              <div className="scene-metric-n">7.1×</div>
+              <div className="scene-metric-l">Year-one ROI</div>
+            </div>
+            <div className="scene-metric">
+              <div className="scene-metric-n">6 mo</div>
+              <div className="scene-metric-l">Payback period</div>
+            </div>
+          </div>
+          <div className="scene-hint">↓ Scroll to explore 30 days of live intelligence</div>
+        </div>
+
       </div>
     </div>
   );
