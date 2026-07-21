@@ -459,11 +459,24 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .tg-waiting-spin{width:24px;height:24px;border-radius:50%;border:2px solid rgba(96,165,250,.11);border-top-color:rgba(96,165,250,.26);animation:spin 1.6s linear infinite;}
 .tg-waiting-lbl{font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(96,165,250,.18);}
 
-/* Causal connector — makes "insight caused actions" explicit */
-.tg-yield{display:flex;flex-direction:column;align-items:center;padding:0 14px;animation:yieldIn .3s var(--ease) .44s both;}
-.tg-yield-line{width:2px;height:16px;background:linear-gradient(180deg,rgba(37,99,235,.1),rgba(37,99,235,.32));}
-.tg-yield-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 16px;border-radius:99px;background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.2);font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);white-space:nowrap;}
-.tg-yield-line-b{width:2px;height:16px;background:linear-gradient(180deg,rgba(37,99,235,.32),rgba(37,99,235,.06));}
+/* SVG fork connector — insight → two action cards */
+.tg-fork{position:relative;padding:0 14px;height:80px;animation:yieldIn .3s var(--ease) .44s both;}
+.tg-fork-svg{display:block;width:100%;height:80px;}
+.fork-path{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;}
+.fork-stem{stroke:rgba(37,99,235,.42);stroke-width:1.5;animation:drawFork .28s ease both;}
+.fork-arm-l{stroke:rgba(109,40,217,.35);stroke-width:1.5;animation:drawFork .38s ease .24s both;}
+.fork-arm-r{stroke:rgba(37,99,235,.35);stroke-width:1.5;animation:drawFork .38s ease .28s both;}
+.fork-dot{fill:rgba(37,99,235,.6);opacity:0;animation:dotIn .18s ease .22s both;}
+.fork-tip-l{fill:rgba(109,40,217,.5);opacity:0;animation:dotIn .18s ease .56s both;}
+.fork-tip-r{fill:rgba(37,99,235,.5);opacity:0;animation:dotIn .18s ease .60s both;}
+@keyframes drawFork{to{stroke-dashoffset:0;}}
+@keyframes dotIn{to{opacity:1;}}
+.tg-fork-badge{position:absolute;top:34px;left:50%;transform:translate(-50%,-50%);display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:99px;background:rgba(255,255,255,.92);border:1px solid rgba(37,99,235,.18);font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);white-space:nowrap;box-shadow:0 2px 10px rgba(37,99,235,.09);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:yieldIn .22s var(--ease) .22s both;z-index:1;}
+@media(max-width:640px){
+  .tg-fork{height:auto;padding:8px 0;display:flex;justify-content:center;}
+  .tg-fork-svg{display:none;}
+  .tg-fork-badge{position:static;transform:none;}
+}
 
 /* Actions grid — 2-col below the insight */
 .tg-actions{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:0 14px 14px;}
@@ -1135,6 +1148,7 @@ function ActionCard({ notif, type, tech }) {
   );
 }
 
+/* FORK CONNECTOR component defined below TrioGroup */
 /* TRIO GROUP — vertical: insight (full-w) → causal connector → actions (2-col) */
 /* Per-insight primary tool, keyed by insightId + action type */
 const ACTION_TOOL={
@@ -1276,16 +1290,9 @@ function TrioGroup({ unit }) {
         </div>
       </div>
 
-      {/* Zone 2 — causal connector: appears when insight is revealed */}
+      {/* Zone 2 — SVG fork connector: appears when insight is revealed */}
       {phase>=2 && actionCount>0 && (
-        <div className="tg-yield">
-          <div className="tg-yield-line"/>
-          <div className="tg-yield-badge">
-            <span>⚡</span>
-            <span>Growth Navigator synthesised {actionCount} action{actionCount!==1?'s':''}</span>
-          </div>
-          <div className="tg-yield-line-b"/>
-        </div>
+        <ForkConnector actionCount={actionCount} hasBoth={!!(mktNotif && salesNotif)}/>
       )}
 
       {/* Zone 3 — ghost slots from phase 1, real cards stagger in at phase 3 / 4 */}
@@ -1317,7 +1324,38 @@ function TrioGroup({ unit }) {
   );
 }
 
-/* ── NEW COMPONENTS ── */
+function ForkConnector({ actionCount, hasBoth }) {
+  return (
+    <div className="tg-fork">
+      {/* SVG fork — hidden on mobile via CSS, shown on desktop */}
+      <svg className="tg-fork-svg" viewBox="0 0 200 80" preserveAspectRatio="none" aria-hidden="true">
+        {/* Stem from insight down to fork point */}
+        <path className="fork-path fork-stem" d="M 100 0 L 100 34" pathLength="1"/>
+        {hasBoth ? (
+          <>
+            {/* Left arm curves to center of marketing (left) card */}
+            <path className="fork-path fork-arm-l" d="M 100 34 C 100 58 50 58 50 78" pathLength="1"/>
+            {/* Right arm curves to center of sales (right) card */}
+            <path className="fork-path fork-arm-r" d="M 100 34 C 100 58 150 58 150 78" pathLength="1"/>
+            {/* Arm tip dots */}
+            <circle className="fork-tip-l" cx="50" cy="78" r="2.5"/>
+            <circle className="fork-tip-r" cx="150" cy="78" r="2.5"/>
+          </>
+        ) : (
+          /* Single action — straight line continues down */
+          <path className="fork-path fork-stem" d="M 100 34 L 100 78" pathLength="1" style={{animationDelay:'.24s'}}/>
+        )}
+        {/* Fork point dot */}
+        <circle className="fork-dot" cx="100" cy="34" r="3"/>
+      </svg>
+      {/* Badge floats at fork point */}
+      <div className="tg-fork-badge">
+        <span>⚡</span>
+        <span>Growth Navigator synthesised {actionCount} action{actionCount!==1?'s':''}</span>
+      </div>
+    </div>
+  );
+}
 
 function DateMarker({date}){
   return (
